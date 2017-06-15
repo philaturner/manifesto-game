@@ -8,6 +8,9 @@ var map,
     player,
     baddie,
     baddie1,
+    baddie2,
+    baddie3,
+    baddie4,
     starbox,
     scoreText,
     starCountText,
@@ -72,10 +75,29 @@ function create() {
   blocker.alpha = BLOCKER_ALPHA;
   blocker = blockers.create(125,290,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
+
   blocker = blockers.create(330,670,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
   blocker = blockers.create(515,670,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
+
+  blocker = blockers.create(805,816,'blocker');
+  blocker.alpha = BLOCKER_ALPHA;
+  blocker = blockers.create(960,816,'blocker');
+  blocker.alpha = BLOCKER_ALPHA;
+
+  blocker = blockers.create(822,304,'blocker');
+  blocker.alpha = BLOCKER_ALPHA;
+  blocker = blockers.create(972,304,'blocker');
+  blocker.alpha = BLOCKER_ALPHA;
+
+  blocker = blockers.create(1105,592,'blocker');
+  blocker.alpha = BLOCKER_ALPHA;
+  blocker = blockers.create(1295,592,'blocker');
+  blocker.alpha = BLOCKER_ALPHA;
+
+
+  //arrow
   blocker = blockers.create(610,380,'downarrow');
 
   baddies = game.add.group();
@@ -84,8 +106,14 @@ function create() {
   baddie = game.add.sprite(200, 200, 'baddie');
   starbox = game.add.sprite(625, 200, 'starbox');
   baddie1 = game.add.sprite(420, 650, 'baddie');
+  baddie2 = game.add.sprite(900, 816, 'baddie');
+  baddie3 = game.add.sprite(900, 304, 'baddie');
+  baddie4 = game.add.sprite(1200, 590, 'baddie');
   baddies.add(baddie);
   baddies.add(baddie1);
+  baddies.add(baddie2);
+  baddies.add(baddie3);
+  baddies.add(baddie4);
 
   //we need to enable physics on the player and baddie
   game.physics.arcade.enable(player);
@@ -215,11 +243,11 @@ function update(){
 
   if (cursors.left.isDown){
     //Move to the left
-    player.body.velocity.x = -150;
+    player.body.velocity.x = -225;
     player.animations.play('left');
   } else if (cursors.right.isDown){
     //Move to the right
-    player.body.velocity.x = 150;
+    player.body.velocity.x = 225;
     player.animations.play('right');
   } else{
     player.animations.stop();
@@ -262,6 +290,7 @@ function displacement (x, y, xlimit, ylimit){
   player.tint = 0xff0000;
   player.x = x + nx;
   player.y = y - ny;
+  score -= 1;
 }
 
 function timerEnd(){
