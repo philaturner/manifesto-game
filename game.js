@@ -22,9 +22,9 @@ var BLOCKER_ALPHA = 0;
 
 function preload() {
   //game.load.image('sky', 'assets/sky.png');
-  game.load.image('star', 'assets/star.png');
+  game.load.image('star', 'assets/manifesto.png');
   //game.load.image('ground', 'assets/platform.png');
-  game.load.image('starbox', 'assets/starbox.png');
+  game.load.image('starbox', 'assets/manifesto-box.png');
   game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
   game.load.tilemap('main_map', 'assets/map/level1.csv', null, Phaser.Tilemap.CSV);
@@ -143,19 +143,19 @@ function create() {
 
   //various game text
   scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#000'});
-  starCountText = game.add.text(16 , game.world.height - 30, 'Stars: 0', { font: 'Courier',fontSize: '18px', fill: '#000'});
+  starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos: 0', { font: 'Courier',fontSize: '18px', fill: '#000'});
   game.add.text(16, game.world.height - 32, 'Arrow keys to move, Up to jump. Now go Explore!', { font: 'Courier',fontSize: '18px', fill: '#fff'});
-  game.add.text(565, 490, 'Generate some stars', { font: 'Courier',fontSize: '14px', fill: '#000'});
+  game.add.text(545, 490, 'Generate some manifestos', { font: 'Courier',fontSize: '14px', fill: '#000'});
   game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#000'});
 }
 
 function update(){
 
   //update stars text
-  starCountText.text = 'Stars: ' + starCount;
+  starCountText.text = 'Manifestos: ' + starCount;
   starCountText.x = game.camera.x + 16;
   starCountText.y = game.camera.y + 16;
-  scoreText.x = game.camera.x + 780;
+  scoreText.x = game.camera.x + 765;
   scoreText.y = game.camera.y + 16;
 
   //various collisions checks
@@ -169,7 +169,6 @@ function update(){
   for (i = 0; i < baddies.children.length; i ++){
     game.physics.arcade.overlap(player, baddies.children[i], hitBad, null, this);
   }
-
 
   game.physics.arcade.overlap(player, starbox, starGen, null, this);
   //variable used to run with keyboard controls
