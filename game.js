@@ -13,10 +13,11 @@ var map,
     starCountText,
     starCount = 0,
     score = 0,
-    jumpCount = 0;
+    timer = 0;
 
 var MAX_MOB_SPEED = 100;
 var BLOCKER_ALPHA = 0;
+var TIME_REM = 30;
 
 //TODO Add hidden alpha 0 collision blocks to allow AI to move between points
 
@@ -37,7 +38,7 @@ function preload() {
 function create() {
   //set physics, so enable the Arcade Physics system
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.stage.backgroundColor = '#87CEFA';
+  game.stage.backgroundColor = '#edd9fc';
   map = game.add.tilemap('main_map', 32, 32);
   map.addTilesetImage('main_ts','tiles');
   layer = map.createLayer(0);
@@ -69,9 +70,9 @@ function create() {
   blocker.alpha = BLOCKER_ALPHA;
   blocker = blockers.create(125,290,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
-  blocker = blockers.create(315,670,'blocker');
+  blocker = blockers.create(330,670,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
-  blocker = blockers.create(520,670,'blocker');
+  blocker = blockers.create(515,670,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
 
   baddies = game.add.group();
@@ -140,23 +141,33 @@ function create() {
   //sets cursor keys
   cursors = game.input.keyboard.createCursorKeys();
   game.camera.follow(player);
+  game.time.events.add(Phaser.Timer.SECOND * TIME_REM, timerEnd);
 
   //various game text
-  scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#000'});
-  starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos: 0', { font: 'Courier',fontSize: '18px', fill: '#000'});
-  game.add.text(16, game.world.height - 32, 'Arrow keys to move, Up to jump. Now go Explore!', { font: 'Courier',fontSize: '18px', fill: '#fff'});
+  scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
+  starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
+  game.add.text(16, game.world.height - 32, 'Arrow keys to move, Up to jump. Collect stuff!', { font: 'Courier',fontSize: '18px', fill: '#fff'});
   game.add.text(545, 490, 'Generate some manifestos', { font: 'Courier',fontSize: '14px', fill: '#000'});
   game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#000'});
+  timer = game.add.text(0, 0, 'Timer: 60', { font: 'Courier',fontSize: '24px', fill: '#fff', backgroundColor: '#773682'});
 }
 
 function update(){
 
+  //start timer as soon as stars start to spawn
+  if (starCount == 1){
+    game.add.text(350, 400, 'Collect all the things...', { font: 'Courier',fontSize: '32px', fill: '#e8336f'});
+  }
+
   //update stars text
   starCountText.text = 'Manifestos: ' + starCount;
+  timer.text = Math.floor(game.time.events.duration/1000);
   starCountText.x = game.camera.x + 16;
-  starCountText.y = game.camera.y + 16;
+  starCountText.y = game.camera.y + 580;
   scoreText.x = game.camera.x + 765;
-  scoreText.y = game.camera.y + 16;
+  scoreText.y = game.camera.y + 580;
+  timer.x = player.x;
+  timer.y = player.y - 100;
 
   //various collisions checks
   game.physics.arcade.collide(baddies, layer);
@@ -246,4 +257,8 @@ function displacement (x, y, xlimit, ylimit){
   player.tint = 0xff0000;
   player.x = x + nx;
   player.y = y - ny;
+}
+
+function timerEnd(){
+  alert('Time is up, your score is ' + score);
 }
