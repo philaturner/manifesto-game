@@ -13,6 +13,7 @@ var map,
     starCountText,
     starCount = 0,
     score = 0,
+    maxScore = 0;
     timer = 0;
 
 var MAX_MOB_SPEED = 100;
@@ -30,6 +31,7 @@ function preload() {
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
   game.load.tilemap('main_map', 'assets/map/level1.csv', null, Phaser.Tilemap.CSV);
   game.load.image('tiles', 'assets/map/main_tileset.png');
+  game.load.image('downarrow', 'assets/downarrow.png');
 
   //blocker - invisible object that will cause enemies to change direction
   game.load.image('blocker', 'assets/blocker.png');
@@ -74,6 +76,7 @@ function create() {
   blocker.alpha = BLOCKER_ALPHA;
   blocker = blockers.create(515,670,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
+  blocker = blockers.create(610,380,'downarrow');
 
   baddies = game.add.group();
 
@@ -147,7 +150,7 @@ function create() {
   scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
   starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
   game.add.text(16, game.world.height - 32, 'Arrow keys to move, Up to jump. Collect stuff!', { font: 'Courier',fontSize: '18px', fill: '#fff'});
-  game.add.text(545, 490, 'Generate some manifestos', { font: 'Courier',fontSize: '14px', fill: '#000'});
+  game.add.text(565, 490, 'Collect them all!', { font: 'Courier',fontSize: '14px', fill: '#000'});
   game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#000'});
   timer = game.add.text(0, 0, 'Timer: 60', { font: 'Courier',fontSize: '24px', fill: '#fff', backgroundColor: '#773682'});
 }
@@ -156,10 +159,13 @@ function update(){
 
   //start timer as soon as stars start to spawn
   if (starCount == 1){
-    game.add.text(350, 400, 'Collect all the things...', { font: 'Courier',fontSize: '32px', fill: '#e8336f'});
+    //game.add.text(350, 400, 'Collect all the things...', { font: 'Courier',fontSize: '32px', fill: '#e8336f', backgroundColor: '#fff'});
   }
 
-  //update stars text
+  if (maxScore < 1){
+    scoreText.text = 'Score: ' + score;
+  }
+
   starCountText.text = 'Manifestos: ' + starCount;
   timer.text = Math.floor(game.time.events.duration/1000);
   starCountText.x = game.camera.x + 16;
@@ -231,7 +237,6 @@ function collectStar (player, star) {
   star.kill();
   starCount--;
   score += 10;
-  scoreText.text = 'Score: ' + score;
 }
 
 function hitBad (player, baddie) {
@@ -261,4 +266,5 @@ function displacement (x, y, xlimit, ylimit){
 
 function timerEnd(){
   alert('Time is up, your score is ' + score);
+  maxScore = score;
 }
