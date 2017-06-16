@@ -5,8 +5,9 @@ var game = new Phaser.Game(896, 640,
 
 var map,
     layer,
+    layer1,
     player,
-    baddie,
+    baddie = [],
     baddie1,
     baddie2,
     baddie3,
@@ -23,16 +24,14 @@ var MAX_MOB_SPEED = 100;
 var BLOCKER_ALPHA = 0;
 var TIME_REM = 30;
 
-//TODO Add hidden alpha 0 collision blocks to allow AI to move between points
-
 function preload() {
-  //game.load.image('sky', 'assets/sky.png');
+
   game.load.image('star', 'assets/manifesto.png');
-  //game.load.image('ground', 'assets/platform.png');
   game.load.image('starbox', 'assets/manifesto-box.png');
   game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
   game.load.tilemap('main_map', 'assets/map/level1.csv', null, Phaser.Tilemap.CSV);
+  game.load.tilemap('object_layer', 'assets/map/level1_LayerOne.csv', null, Phaser.Tilemap.CSV);
   game.load.image('tiles', 'assets/map/main_tileset.png');
   game.load.image('downarrow', 'assets/downarrow.png');
 
@@ -48,25 +47,8 @@ function create() {
   map.addTilesetImage('main_ts','tiles');
   layer = map.createLayer(0);
   layer.resizeWorld();
+
   map.setCollisionBetween(0, 5);
-
-  //adds sky sprint as bg
-  //game.add.sprite(0, 0, 'sky');
-
-  //the platforms group contains the ground and the 2 ledges we can jump on
-  //platforms = game.add.group();
-  //platforms.enableBody = true;
-
-
-  //var ground = platforms.create(0, game.world.height - 64, 'ground');
-  //ground.scale.setTo(2, 2);
-  //ground.body.immovable = true;
-
-  //create two ledges
-  //var ledge = platforms.create(400, 400, 'ground');
-  //ledge.body.immovable = true;
-  //ledge = platforms.create(-150, 250, 'ground');
-  //ledge.body.immovable = true;
 
   //create blockers - these control ememy movement
   blockers = game.add.group();
@@ -96,15 +78,16 @@ function create() {
   blocker = blockers.create(1295,592,'blocker');
   blocker.alpha = BLOCKER_ALPHA;
 
-
   //arrow
   blocker = blockers.create(610,380,'downarrow');
 
+  //create baddie group
   baddies = game.add.group();
 
   player = game.add.sprite(32, game.world.height - 150, 'dude');
-  baddie = game.add.sprite(200, 200, 'baddie');
   starbox = game.add.sprite(625, 200, 'starbox');
+
+  baddie = game.add.sprite(200, 200, 'baddie');
   baddie1 = game.add.sprite(420, 650, 'baddie');
   baddie2 = game.add.sprite(900, 816, 'baddie');
   baddie3 = game.add.sprite(900, 304, 'baddie');
@@ -136,10 +119,6 @@ function create() {
     baddies.children[i].animations.play('right');
   }
 
-  //baddie.body.bounce.y = 0.2;
-  //baddie.body.gravity.y = 1000;
-  //baddie.body.collideWorldBounds = true;
-
   starbox.body.bounce.y = 0.2;
   starbox.body.gravity.y = 1000;
   starbox.body.collideWorldBounds = true;
@@ -148,27 +127,9 @@ function create() {
   player.animations.add('left', [0, 1, 2, 3], 10, true);
   player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-  //OLD baddie properties
-  //baddie.animations.add('left', [0, 1], 10, true);
-  //baddie.animations.add('right', [2, 3], 10, true);
-  //baddie.body.velocity.x = MAX_MOB_SPEED;
-  //baddie.animations.play('right');
-
   stars = game.add.group();
   stars.enableBody = true;
 
-  //OLD tars creations
-  // for (var i = 0; i < 1; i++){
-  //   for (var j = 0; j < 1; j++){
-  //     var rx = Math.random() * game.world.width;
-  //     var ry = Math.random() * game.world.height;
-  //     var star = stars.create(rx, ry - 150, 'star');
-  //     star.body.gravity.y = 50;
-  //     //star.body.bounce.y = 0.7 + Math.random() * 0.2;
-  //     star.body.bounce.y = 0.9;
-  //     star.z = 2;
-  //   }
-  // }
   //sets cursor keys
   cursors = game.input.keyboard.createCursorKeys();
   game.camera.follow(player);
