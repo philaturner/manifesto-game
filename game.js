@@ -16,7 +16,15 @@ function preload() {
   game.load.image('blocker', 'assets/blocker.png');
   game.load.image('bg_scroll', 'assets/scoll-bg.jpg');
   game.load.image('endbox', 'assets/starbox.png');
+  game.load.image('heart', 'assets/heart.png');
 }
+
+var NO_OF_LIVES = 3;
+var MAX_MOB_SPEED = 100;
+var BLOCKER_ALPHA = 0;
+var TIME_REM = 60;
+var HEART_OFFSET = 16;
+var HURT_TIMER = 50;
 
 var map,
     layer,
@@ -35,10 +43,9 @@ var map,
     timer = 0,
     t = 0,
     maxR = 10;
+    timeToDeath = HURT_TIMER;
+    livesCount = NO_OF_LIVES;
 
-var MAX_MOB_SPEED = 100;
-var BLOCKER_ALPHA = 0;
-var TIME_REM = 60;
 
 function create() {
   //bg
@@ -89,6 +96,14 @@ function create() {
   endbox = game.add.sprite(1530, 800, 'endbox');
   boss = game.add.sprite(150,600, 'boss');
 
+  //creates hearts for lives
+  lives = game.add.group();
+  lives.enableBody = true;
+  for (i = 0; i < NO_OF_LIVES; i++){
+    live = lives.create(player.x,player.y,'heart');
+  }
+
+
   //we need to enable physics on the player and baddie
   game.physics.arcade.enable(player);
   game.physics.arcade.enable(enemies);
@@ -135,7 +150,7 @@ function create() {
   timer = game.add.text(0, 0, 'Timer: 60', { font: 'Courier',fontSize: '24px', fill: '#fff', backgroundColor: '#773682'});
   starCount = stars.length;
 
-  //line between player and end
+  //line between player and end DEBUG
   toEndLine = new Phaser.Line(player.x, player.y, endbox.x, endbox.y);
 }
 
@@ -232,6 +247,27 @@ function update(){
   // }
   //console.log(perlinNoise(r, t));
 
+  // live.x = player.x + HEART_OFFSET;
+  // live.y = player.y;
+  for (i = 0; i < livesCount; i++){
+    lives.children[i].x = player.x + (HEART_OFFSET*2) + (i*HEART_OFFSET);
+    lives.children[i].y = player.y;
+  }
+  //update last lives alpha based on timeToDeath and convert to decimal
+  lives.children[livesCount-1].alpha = ((100/HURT_TIMER) * timeToDeath) / 100;
+
+  if (timeToDeath == 0){
+    //reset player
+    playerDied(player);
+    timeToDeath = HURT_TIMER;
+  }
+
+  if (livesCount == 0){
+    game.time.slowMotion = 4;
+    timerEnd();
+  }
+
+  //DEBUG STUFF
   toEndLine.setTo(boss.x, boss.y, endbox.x, endbox.y, false);
   game.debug.geom(toEndLine);
   game.debug.lineInfo(toEndLine, 32, 32);
@@ -269,11 +305,13 @@ function displacement (x, y, xlimit, ylimit){
   player.x = x + nx;
   player.y = y - ny;
   score -= 1;
+  timeToDeath -=1;
 }
 
 function timerEnd(){
-  alert('Time is up, your score is ' + score);
+  alert("You're a bad person and bad at this game");
   maxScore = score;
+  game.paused = true;
 }
 
 function bossEnd(){
@@ -283,4 +321,11 @@ function bossEnd(){
 
 function normalTime(){
   game.paused = true;
+  alert('You won, your score is ' + score);
+}
+
+function playerDied(player,enemy){
+   player.kill();
+   player.reset(32, game.world.height - 250);
+   livesCount --;
 }
