@@ -93,7 +93,7 @@ function create() {
 
   player = game.add.sprite(32, game.world.height - 250, 'dude');
   starbox = game.add.sprite(625, 200, 'starbox');
-  endbox = game.add.sprite(1530, 800, 'endbox');
+  endbox = game.add.sprite(1500, 50, 'endbox');
   //boss = game.add.sprite(150,600, 'boss');
 
   //creates hearts for lives
