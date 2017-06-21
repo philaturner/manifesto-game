@@ -234,6 +234,10 @@ function update(){
     player.body.velocity.y = -325;
   }
 
+  if (cursors.down.isDown && !hitPlatform){
+    player.body.velocity.y = 400;
+  }
+
   //boss distance to player
   // if (game.physics.arcade.distanceBetween(player, boss) < 250){
   //   console.log('They close!');
