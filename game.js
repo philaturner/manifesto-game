@@ -25,6 +25,7 @@ var BLOCKER_ALPHA = 0;
 var TIME_REM = 30;
 var HEART_OFFSET = 16;
 var HURT_TIMER = 60;
+var SPEED_MULTIPLER = 1.3;
 
 var map,
     layer,
@@ -65,6 +66,10 @@ function create() {
   stars = game.add.group();
   stars.enableBody = true;
   map.createFromObjects('ObjectsFirst', 51, 'star', 0, true, false, stars);
+  //make first star different colour
+  for (i = 0; i < stars.children.length; i++){
+    stars.children[i].tint = 0;
+  }
 
   //create and set all enimes based on object layer
   enemies = game.add.group();
@@ -115,6 +120,8 @@ function create() {
   player.body.bounce.y = 0.2;
   player.body.gravity.y = 300;
   player.body.collideWorldBounds = true;
+  player.body.maxVelocity.x = 600;
+  player.body.maxVelocity.y = 600;
 
   starbox.body.bounce.y = 0.2;
   starbox.body.gravity.y = 1000;
@@ -283,7 +290,14 @@ function collectStar (player, star) {
   star.kill();
   starCount--;
   score += 10;
-  console.log('collected');
+
+  //random chance to get speed boost
+  var rnd = game.rnd.integerInRange(0, 1)
+  if (rnd > 0.2){
+    console.log('SPEED BABY');
+    player.body.velocity.x *= SPEED_MULTIPLER;
+    player.body.velocity.y *= SPEED_MULTIPLER;
+  }
 }
 
 function hitBad (player, baddie) {
