@@ -24,7 +24,7 @@ var MAX_MOB_SPEED = 100;
 var BLOCKER_ALPHA = 0;
 var TIME_REM = 60;
 var HEART_OFFSET = 16;
-var HURT_TIMER = 50;
+var HURT_TIMER = 60;
 
 var map,
     layer,
