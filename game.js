@@ -9,7 +9,7 @@ function preload() {
   game.load.image('starbox', 'assets/manifesto-box.png');
   game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
-  game.load.spritesheet('boss', 'assets/boss-57x88.png', 57, 88);
+  //game.load.spritesheet('boss', 'assets/boss-57x88.png', 57, 88);
   game.load.tilemap('main_map_j', 'assets/map/level1JSON.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles', 'assets/map/main_tileset.png', 32, 32);
   game.load.image('downarrow', 'assets/downarrow.png');
@@ -22,7 +22,7 @@ function preload() {
 var NO_OF_LIVES = 3;
 var MAX_MOB_SPEED = 100;
 var BLOCKER_ALPHA = 0;
-var TIME_REM = 60;
+var TIME_REM = 30;
 var HEART_OFFSET = 16;
 var HURT_TIMER = 60;
 
@@ -30,7 +30,7 @@ var map,
     layer,
     layer1,
     player,
-    boss,
+    //boss,
     enemies,
     starbox,
     endbox,
@@ -94,7 +94,7 @@ function create() {
   player = game.add.sprite(32, game.world.height - 250, 'dude');
   starbox = game.add.sprite(625, 200, 'starbox');
   endbox = game.add.sprite(1530, 800, 'endbox');
-  boss = game.add.sprite(150,600, 'boss');
+  //boss = game.add.sprite(150,600, 'boss');
 
   //creates hearts for lives
   lives = game.add.group();
@@ -108,7 +108,7 @@ function create() {
   game.physics.arcade.enable(player);
   game.physics.arcade.enable(enemies);
   game.physics.arcade.enable(starbox);
-  game.physics.arcade.enable(boss);
+  //game.physics.arcade.enable(boss);
   game.physics.arcade.enable(endbox);
 
   //player, baddie and starbox creation
@@ -124,13 +124,13 @@ function create() {
   endbox.body.gravity.y = 1000;
   endbox.body.collideWorldBounds = true;
 
-  boss.body.bounce.y = .1;
-  boss.body.bounce.x = .1;
-  boss.body.gravity.y = 0;
-  boss.body.collideWorldBounds = true;
-  //17 18 left  // 19, 20 right
-  boss.animations.add('left', [17,18], 10, true);
-  boss.animations.add('right', [19,20], 10, true);
+  // boss.body.bounce.y = .1;
+  // boss.body.bounce.x = .1;
+  // boss.body.gravity.y = 0;
+  // boss.body.collideWorldBounds = true;
+  // //17 18 left  // 19, 20 right
+  // boss.animations.add('left', [17,18], 10, true);
+  // boss.animations.add('right', [19,20], 10, true);
 
   //set player and baddie animations
   player.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -144,20 +144,20 @@ function create() {
   //various game text
   scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
   starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos:', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
-  game.add.text(16, game.world.height - 32, 'Get the monster to the end goal', { font: 'Courier',fontSize: '18px', fill: '#fff'});
+  game.add.text(16, game.world.height - 32, 'Find the end and collect stuff', { font: 'Courier',fontSize: '18px', fill: '#fff'});
   game.add.text(565, 490, 'If you have time!', { font: 'Courier',fontSize: '14px', fill: '#000'});
   game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#000'});
   timer = game.add.text(0, 0, 'Timer: 60', { font: 'Courier',fontSize: '24px', fill: '#fff', backgroundColor: '#773682'});
   starCount = stars.length;
 
   //line between player and end DEBUG
-  toEndLine = new Phaser.Line(player.x, player.y, endbox.x, endbox.y);
+  //toEndLine = new Phaser.Line(player.x, player.y, endbox.x, endbox.y);
 }
 
 function update(){
 
   //check if boxx has got to end and do thing
-  game.physics.arcade.overlap(boss, endbox, bossEnd, null, this);
+  //game.physics.arcade.overlap(boss, endbox, bossEnd, null, this);
 
   if (maxScore < 1){
     scoreText.text = 'Score: ' + score;
@@ -177,9 +177,10 @@ function update(){
   game.physics.arcade.collide(stars, layer);
   game.physics.arcade.collide(starbox, layer);
   game.physics.arcade.collide(endbox, layer);
-  game.physics.arcade.collide(boss, layer);
-  game.physics.arcade.collide(boss, player);
+  //game.physics.arcade.collide(boss, layer);
+  //game.physics.arcade.collide(boss, player);
   game.physics.arcade.overlap(player, stars, collectStar, null, this);
+  game.physics.arcade.overlap(player, endbox, normalTime, null, this);
 
   //check all baddie collisions
   for (i = 0; i < enemies.children.length; i ++){
@@ -212,6 +213,7 @@ function update(){
     }
   }
 
+  //various movement
   if (cursors.left.isDown){
     //Move to the left
     player.body.velocity.x = -225;
@@ -233,13 +235,13 @@ function update(){
   }
 
   //boss distance to player
-  if (game.physics.arcade.distanceBetween(player, boss) < 250){
-    console.log('They close!');
-    boss.body.velocity.y += game.rnd.integerInRange(0.5,1);
-  }
+  // if (game.physics.arcade.distanceBetween(player, boss) < 250){
+  //   console.log('They close!');
+  //   boss.body.velocity.y += game.rnd.integerInRange(0.5,1);
+  // }
   //boss movement
-  boss.body.velocity.x += game.rnd.integerInRange(-5,5);
-  boss.body.velocity.y += game.rnd.integerInRange(-5,5);
+  //boss.body.velocity.x += game.rnd.integerInRange(-5,5);
+  //boss.body.velocity.y += game.rnd.integerInRange(-5,5);
   // if (boss.body.velocity.x > 2){
   //   boss.animations.play('right')
   // } else {
@@ -247,8 +249,7 @@ function update(){
   // }
   //console.log(perlinNoise(r, t));
 
-  // live.x = player.x + HEART_OFFSET;
-  // live.y = player.y;
+  //lives count and control
   for (i = 0; i < livesCount; i++){
     lives.children[i].x = player.x + (HEART_OFFSET*2) + (i*HEART_OFFSET);
     lives.children[i].y = player.y;
@@ -268,9 +269,9 @@ function update(){
   }
 
   //DEBUG STUFF
-  toEndLine.setTo(boss.x, boss.y, endbox.x, endbox.y, false);
-  game.debug.geom(toEndLine);
-  game.debug.lineInfo(toEndLine, 32, 32);
+  //toEndLine.setTo(boss.x, boss.y, endbox.x, endbox.y, false);
+  //game.debug.geom(toEndLine);
+  //game.debug.lineInfo(toEndLine, 32, 32);
 }
 
 function collectStar (player, star) {
@@ -309,7 +310,7 @@ function displacement (x, y, xlimit, ylimit){
 }
 
 function timerEnd(){
-  alert("You're a bad person and bad at this game");
+  alert("You ran out of time, soz!");
   maxScore = score;
   game.paused = true;
 }
@@ -321,7 +322,7 @@ function bossEnd(){
 
 function normalTime(){
   game.paused = true;
-  alert('You won, your score is ' + score);
+  alert('Level complete, your score is ' + score);
 }
 
 function playerDied(player,enemy){
