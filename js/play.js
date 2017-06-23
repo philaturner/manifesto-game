@@ -228,7 +228,9 @@ var playState = {
 
     if (livesCount == 0){
       game.time.slowMotion = 4;
-      timerEnd();
+      startText = '.try again.'
+      statusText = "You died :'("
+      this.restart();
     }
 
   },
