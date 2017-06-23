@@ -118,7 +118,7 @@ function create() {
 
   //player, baddie and starbox creation
   player.body.bounce.y = 0.2;
-  player.body.gravity.y = 300;
+  player.body.gravity.y = 800;
   player.body.collideWorldBounds = true;
   player.body.maxVelocity.x = 600;
   player.body.maxVelocity.y = 600;
@@ -238,7 +238,7 @@ function update(){
 
   //if down and hitPlatform allow jump
   if (cursors.up.isDown && hitPlatform){
-    player.body.velocity.y = -325;
+    player.body.velocity.y = -500;
   }
 
   if (cursors.down.isDown && !hitPlatform){
@@ -293,7 +293,7 @@ function collectStar (player, star) {
 
   //random chance to get speed boost
   var rnd = game.rnd.integerInRange(0, 1)
-  if (rnd > 0.2){
+  if (rnd > 0.75){
     console.log('SPEED BABY');
     player.body.velocity.x *= SPEED_MULTIPLER;
     player.body.velocity.y *= SPEED_MULTIPLER;
@@ -302,7 +302,7 @@ function collectStar (player, star) {
 
 function hitBad (player, baddie) {
   //displace player based on baddie position with max flex from x,y
-  displacement(baddie.x, baddie.y, 26, 26);
+  displacement(baddie.x, baddie.y, 100, 50);
 }
 
 function starGen (player, starbox) {
@@ -321,10 +321,12 @@ function displacement (x, y, xlimit, ylimit){
   var nx = Math.random() * xlimit;
   var ny = Math.random() * ylimit;
   player.tint = 0xff0000;
-  player.x = x + nx;
-  player.y = y - ny;
-  score -= 1;
-  timeToDeath -=1;
+  player.x = x - xlimit;
+  player.y = y - ylimit;
+  player.body.velocity.x = -100;
+  player.body.velocity.y = -50;
+  score -= 25;
+  timeToDeath -=HURT_TIMER/3;
 }
 
 function timerEnd(){
