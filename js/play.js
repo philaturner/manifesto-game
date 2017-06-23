@@ -231,7 +231,7 @@ var playState = {
     if (livesCount == 0){
       game.time.slowMotion = 4;
       startText = '.try again.'
-      statusText = "You died :'("
+      statusText = "you died :'("
       this.backToMenu();
     }
 
@@ -289,7 +289,7 @@ function displacement (x, y, xlimit, ylimit){
 }
 
 function timerEnd(){
-  statusText = "You ran out of time :'(";
+  statusText = "you ran out of time :'(";
   startText = '.play again.'
   playState.backToMenu();
 }
@@ -300,7 +300,7 @@ function bossEnd(){
 }
 
 function normalTime(){
-  statusText = 'Level complete, your score was ' + score;
+  statusText = 'level complete, your score was ' + score;
   startText = '.play again.'
   playState.backToMenu();
 }
