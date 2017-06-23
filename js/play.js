@@ -35,24 +35,16 @@ var playState = {
     //bg
     bgScroll = game.add.tileSprite(0, -500, 3000, 1600, 'bg_scroll');
 
-    //set physics, so enable the Arcade Physics system
-    //game.physics.startSystem(Phaser.Physics.ARCADE);
-    //game.stage.backgroundColor = '#edd9fc';
     map = game.add.tilemap('main_map_j');
     map.addTilesetImage('main_ts','tiles');
     layer = map.createLayer('Background');
     layer.resizeWorld();
-    //layer.debug = true;
     map.setCollisionBetween(0, 30);
 
     //stars/manifestos from layer
     stars = game.add.group();
     stars.enableBody = true;
     map.createFromObjects('ObjectsFirst', 51, 'star', 0, true, false, stars);
-    //make first star different colour
-    // for (i = 0; i < stars.children.length; i++){
-    //   stars.children[i].tint = 0;
-    // }
 
     //create and set all enimes based on object layer
     enemies = game.add.group();
@@ -235,11 +227,6 @@ var playState = {
 
   },
 
-  backToMenu: function(){
-    console.log('Restarting');
-    game.state.start('menu', true, false);
-  },
-
   endofLevel: function(sText, stText){
     console.log('End of Level');
     statusText = sText;
@@ -256,9 +243,8 @@ function collectStar (player, star) {
   score += 10;
 
   //random chance to get speed boost
-  var rnd = game.rnd.integerInRange(0, 1)
-  if (rnd > 0.75){
-    console.log('SPEED BABY');
+  var rnd = game.rnd.integerInRange(1, 10)
+  if (rnd > 8){
     player.body.velocity.x *= SPEED_MULTIPLER;
     player.body.velocity.y *= SPEED_MULTIPLER;
   }
@@ -295,9 +281,7 @@ function displacement (x, y, xlimit, ylimit){
 }
 
 function timerEnd(){
-  statusText = "you ran out of time :'(";
-  startText = '.play again.'
-  playState.backToMenu();
+  playState.endofLevel("you ran out of time :'(", '.play again');
 }
 
 function bossEnd(){
