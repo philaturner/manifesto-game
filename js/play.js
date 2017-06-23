@@ -112,7 +112,7 @@ var playState = {
     //sets cursor keys
     cursors = game.input.keyboard.createCursorKeys();
     game.camera.follow(player);
-    game.time.events.add(Phaser.Timer.SECOND * TIME_REM, timerEnd);
+    game.time.events.add(Phaser.Timer.SECOND * TIME_REM, this.timeIsUp);
 
     //various game text
     scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
@@ -147,15 +147,15 @@ var playState = {
     game.physics.arcade.collide(endbox, layer);
     //game.physics.arcade.collide(boss, layer);
     //game.physics.arcade.collide(boss, player);
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
-    game.physics.arcade.overlap(player, endbox, normalTime, null, this);
+    game.physics.arcade.overlap(player, stars, this.collectStars, null, this);
+    game.physics.arcade.overlap(player, endbox, this.completedLevel, null, this);
 
     //check all baddie collisions
     for (i = 0; i < enemies.children.length; i ++){
-      game.physics.arcade.overlap(player, enemies.children[i], hitBad, null, this);
+      game.physics.arcade.overlap(player, enemies.children[i], this.hitEnenmy, null, this);
     }
 
-    game.physics.arcade.overlap(player, starbox, starGen, null, this);
+    game.physics.arcade.overlap(player, starbox, this.generateStars, null, this);
     //variable used to run with keyboard controls
     var hitPlatform = game.physics.arcade.collide(player, layer);
 
@@ -216,12 +216,11 @@ var playState = {
 
     if (timeToDeath == 0){
       //reset player
-      playerDied(player);
+      this.playerRestart(player);
       timeToDeath = HURT_TIMER;
     }
 
     if (livesCount == 0){
-      game.time.slowMotion = 4;
       playState.endofLevel("you died :'(", '.try again.');
     }
 
@@ -232,72 +231,62 @@ var playState = {
     statusText = sText;
     startText = stText;
     game.state.start('menu', true, false);
+  },
+
+  collectStars: function(player, star){
+    star.kill();
+    starCount--;
+    score += 10;
+
+    //random chance to get speed boost
+    var rnd = game.rnd.integerInRange(1, 10)
+    if (rnd > 8){
+      player.body.velocity.x *= SPEED_MULTIPLER;
+      player.body.velocity.y *= SPEED_MULTIPLER;
+    }
+  },
+
+  generateStars: function(){
+    //generates stars in random locations, but not too low
+    var rx = Math.random() * game.world.width;
+    var ry = Math.random() * game.world.height;
+    var star = stars.create(rx, ry - 150, 'star');
+    star.body.gravity.y = 50;
+    star.body.bounce.y = 0.9;
+    star.z = 2;
+    starCount++;
+  },
+
+  hitEnenmy: function(player, baddie){
+    this.displacement(baddie.x, baddie.y, 100, 50);
+  },
+
+  playerRestart: function(){
+    player.kill();
+    player.reset(32, game.world.height - 250);
+    livesCount --;
+  },
+
+  displacement: function(x, y, xlimit, ylimit){
+    //displaces player based on some random values to limit, teleports player to x, y
+    var nx = Math.random() * xlimit;
+    var ny = Math.random() * ylimit;
+    player.tint = 0xff0000;
+    player.x = x - xlimit;
+    player.y = y - ylimit;
+    player.body.velocity.x = -100;
+    player.body.velocity.y = -50;
+    score -= 25;
+    timeToDeath -=HURT_TIMER/3;
+    game.camera.flash(0xff0000, 100);
+  },
+
+  timeIsUp: function(string){
+    playState.endofLevel("you ran out of time :'(", '.play again');
+  },
+
+  completedLevel: function(){
+    playState.endofLevel('level complete, your score was ' + score, '.play again.');
   }
 
 };
-
-function collectStar (player, star) {
-  //removes the star from the screen, increases score etc
-  star.kill();
-  starCount--;
-  score += 10;
-
-  //random chance to get speed boost
-  var rnd = game.rnd.integerInRange(1, 10)
-  if (rnd > 8){
-    player.body.velocity.x *= SPEED_MULTIPLER;
-    player.body.velocity.y *= SPEED_MULTIPLER;
-  }
-}
-
-function hitBad (player, baddie) {
-  //displace player based on baddie position with max flex from x,y
-  displacement(baddie.x, baddie.y, 100, 50);
-}
-
-function starGen (player, starbox) {
-  //generates stars in random locations, but not too low
-  var rx = Math.random() * game.world.width;
-  var ry = Math.random() * game.world.height;
-  var star = stars.create(rx, ry - 150, 'star');
-  star.body.gravity.y = 50;
-  star.body.bounce.y = 0.9;
-  star.z = 2;
-  starCount++;
-}
-
-function displacement (x, y, xlimit, ylimit){
-  //displaces player based on some random values to limit, teleports player to x, y
-  var nx = Math.random() * xlimit;
-  var ny = Math.random() * ylimit;
-  player.tint = 0xff0000;
-  player.x = x - xlimit;
-  player.y = y - ylimit;
-  player.body.velocity.x = -100;
-  player.body.velocity.y = -50;
-  score -= 25;
-  timeToDeath -=HURT_TIMER/3;
-  game.camera.flash(0xff0000, 100);
-}
-
-function timerEnd(){
-  playState.endofLevel("you ran out of time :'(", '.play again');
-}
-
-function bossEnd(){
-  game.time.slowMotion = 3;
-  game.time.events.add(Phaser.Timer.SECOND * 3, normalTime);
-}
-
-function normalTime(){
-  playState.endofLevel('level complete, your score was ' + score, '.play again.');
-  // statusText = 'level complete, your score was ' + score;
-  // startText = '.play again.'
-  // playState.backToMenu();
-}
-
-function playerDied(player,enemy){
-  player.kill();
-  player.reset(32, game.world.height - 250);
-  livesCount --;
-}
