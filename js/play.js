@@ -50,9 +50,9 @@ var playState = {
     stars.enableBody = true;
     map.createFromObjects('ObjectsFirst', 51, 'star', 0, true, false, stars);
     //make first star different colour
-    for (i = 0; i < stars.children.length; i++){
-      stars.children[i].tint = 0;
-    }
+    // for (i = 0; i < stars.children.length; i++){
+    //   stars.children[i].tint = 0;
+    // }
 
     //create and set all enimes based on object layer
     enemies = game.add.group();
@@ -125,7 +125,7 @@ var playState = {
     //various game text
     scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
     starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos:', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
-    game.add.text(16, game.world.height - 350, '*Find the end and collect*', { font: 'Courier',fontSize: '18px', fill: '#fff'});
+    game.add.text(16, game.world.height - 350, '*Find the end and collect*', { font: 'Courier',fontSize: '18px', fill: '#000'});
     game.add.text(565, 490, 'If you have time!', { font: 'Courier',fontSize: '14px', fill: '#000'});
     game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#000'});
     timer = game.add.text(0, 0, 'Timer: 60', { font: 'Courier',fontSize: '24px', fill: '#fff', backgroundColor: '#773682'});
@@ -291,6 +291,7 @@ function displacement (x, y, xlimit, ylimit){
   player.body.velocity.y = -50;
   score -= 25;
   timeToDeath -=HURT_TIMER/3;
+  game.camera.flash(0xff0000, 100);
 }
 
 function timerEnd(){
@@ -312,7 +313,7 @@ function normalTime(){
 }
 
 function playerDied(player,enemy){
-   player.kill();
-   player.reset(32, game.world.height - 250);
-   livesCount --;
+  player.kill();
+  player.reset(32, game.world.height - 250);
+  livesCount --;
 }
