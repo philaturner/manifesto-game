@@ -206,6 +206,12 @@ var playState = {
       player.body.velocity.y = 400;
     }
 
+    //spacebar to reset level
+    spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    if (spaceBar.isDown){
+      game.state.start(game.state.current);
+    }
+
     //lives count and control
     for (i = 0; i < livesCount; i++){
       lives.children[i].x = player.x + (HEART_OFFSET*2) + (i*HEART_OFFSET);
