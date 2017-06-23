@@ -17,18 +17,20 @@ var map,
     bgScroll,
     scoreText,
     starCountText,
-    starCount = 0,
-    score = 0,
-    maxScore = 0,
-    timer = 0,
-    t = 0,
-    maxR = 10;
-    timeToDeath = HURT_TIMER;
-    livesCount = NO_OF_LIVES;
+    starCount,
+    score,
+    maxScore,
+    timer,
+    t,
+    maxR;
 
 var playState = {
 
   create: function(){
+    starCount=score=maxScore=timer=t=0;
+    maR = 10;
+    timeToDeath = HURT_TIMER;
+    livesCount = NO_OF_LIVES;
     console.log('Play State');
     //bg
     bgScroll = game.add.tileSprite(0, -500, 3000, 1600, 'bg_scroll');
@@ -230,14 +232,14 @@ var playState = {
       game.time.slowMotion = 4;
       startText = '.try again.'
       statusText = "You died :'("
-      this.restart();
+      this.backToMenu();
     }
 
   },
 
-  restart: function(){
+  backToMenu: function(){
       console.log('Restarting');
-      game.state.start('menu');
+      game.state.start('menu', true, false);
   }
 
 };
@@ -289,7 +291,7 @@ function displacement (x, y, xlimit, ylimit){
 function timerEnd(){
   statusText = "You ran out of time :'(";
   startText = '.play again.'
-  playState.restart();
+  playState.backToMenu();
 }
 
 function bossEnd(){
@@ -300,7 +302,7 @@ function bossEnd(){
 function normalTime(){
   statusText = 'Level complete, your score was ' + score;
   startText = '.play again.'
-  playState.restart();
+  playState.backToMenu();
 }
 
 function playerDied(player,enemy){
