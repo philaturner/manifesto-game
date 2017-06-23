@@ -230,16 +230,21 @@ var playState = {
 
     if (livesCount == 0){
       game.time.slowMotion = 4;
-      startText = '.try again.'
-      statusText = "you died :'("
-      this.backToMenu();
+      playState.endofLevel("you died :'(", '.try again.');
     }
 
   },
 
   backToMenu: function(){
-      console.log('Restarting');
-      game.state.start('menu', true, false);
+    console.log('Restarting');
+    game.state.start('menu', true, false);
+  },
+
+  endofLevel: function(sText, stText){
+    console.log('End of Level');
+    statusText = sText;
+    startText = stText;
+    game.state.start('menu', true, false);
   }
 
 };
@@ -300,9 +305,10 @@ function bossEnd(){
 }
 
 function normalTime(){
-  statusText = 'level complete, your score was ' + score;
-  startText = '.play again.'
-  playState.backToMenu();
+  playState.endofLevel('level complete, your score was ' + score, '.play again.');
+  // statusText = 'level complete, your score was ' + score;
+  // startText = '.play again.'
+  // playState.backToMenu();
 }
 
 function playerDied(player,enemy){
