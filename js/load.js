@@ -1,3 +1,10 @@
+//firebase stuff
+var database;
+var submitButton;
+var nameInput;
+var submitP;
+var highScores =[];
+
 var loadState = {
 
   preload: function(){
@@ -19,9 +26,22 @@ var loadState = {
     game.load.image('endbox', 'assets/starbox.png');
     game.load.image('heart', 'assets/heart.png');
     console.log('Loaded Assets');
+
+    //initliase Firebase
+    var config = {
+      apiKey: "AIzaSyAB8M7qKVj8KyRbKb60EnskxpoxdFsCy7U",
+      authDomain: "manifestos-791d5.firebaseapp.com",
+      databaseURL: "https://manifestos-791d5.firebaseio.com",
+      projectId: "manifestos-791d5",
+      storageBucket: "",
+      messagingSenderId: "155608722757"
+    };
+    firebase.initializeApp(config);
+    database = firebase.database();
   },
 
   create: function(){
+    console.log(database);
     game.state.start('menu');
   }
 

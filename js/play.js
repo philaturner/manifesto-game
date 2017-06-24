@@ -236,6 +236,7 @@ var playState = {
     console.log('End of Level');
     statusText = sText;
     startText = stText;
+    this.submitScore();
     game.state.start('menu', true, false);
   },
 
@@ -293,6 +294,14 @@ var playState = {
 
   completedLevel: function(){
     playState.endofLevel('level complete, your score was ' + score, '.play again.');
-  }
+  },
 
+  submitScore: function(){
+    console.log('Submitted a score');
+    var data = {
+      name: initials,//nameInput.value(),
+      score: score//score
+    }
+    var scores = database.ref('scores').push(data);
+  }
 };
