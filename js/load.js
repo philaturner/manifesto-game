@@ -2,7 +2,8 @@ var loadState = {
 
   preload: function(){
     //loading label
-    var loadingLabel = game.add.text(350, 648, 'loading....', { font: 'Courier',fontSize: '14px', fill: '#000'});
+    var loadingLabel = game.add.text(game.world.centerX, game.world.centerY, '..loading..', { font: 'Courier',fontSize: '22px', fill: '#fff', align: 'center'});
+    loadingLabel.anchor.set(0.5,0.5);
 
     //load game assets
     game.load.image('star', 'assets/manifesto.png');
