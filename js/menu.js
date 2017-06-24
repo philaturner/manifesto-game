@@ -1,6 +1,7 @@
 var menuStatus;
 var menuStart;
 var menuHigh;
+var promoText;
 var statusText = '.spawn and collect manifestos.';
 var startText = '.start.';
 var initials = 'aaa';
@@ -54,6 +55,9 @@ var menuState = {
     menuHigh = game.add.text(game.world.centerX-30, game.world.centerY +80, '.highscores.', { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
     menuHigh.anchor.set(0.5,0.5);
 
+    promoText = game.add.text(game.world.centerX +125, game.world.centerY +111, '<-- wins a free lunch', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});
+    promoText.anchor.set(0.5,0.5);
+
   },
 
   create: function(){
@@ -106,21 +110,6 @@ var menuState = {
     if (!nameChange){
       addIntsruct.text = '';
     }
-
-    //draw highScores
-    // if (gotFirstData){
-    //   for (i = 0; i < HIGH_SCORE_LIMIT; i++){
-    //     // var li = createElement('li', highScores[i][0] + ': ' + highScores[i][1]);
-    //     // li.class('scores_list');
-    //     // li.parent('scorelist');
-    //     var result = highScores[i][0] + ': ' + highScores[i][1];
-    //     highText[i] = game.add.text(game.world.centerX -80, game.world.centerY +100, result, { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
-    //     addIntsruct.anchor.set(0.5,0.5);
-    //     highText[i].hOffset = 100+(i * 22);
-    //     highText[i].y = game.world.centerY + highText[i].hOffset;
-    //
-    //      }
-    //}
   },
 
   gotData: function(data){
@@ -148,12 +137,16 @@ var menuState = {
       }
     }
 
+    //if exists clear old highscores - prevents display issues
+    for (i = 0; i < HIGH_SCORE_LIMIT; i++){
+      if (highText[i]){
+        highText[i].text = '';
+      }
+    }
+
     //draw highScores
     for (i = 0; i < HIGH_SCORE_LIMIT; i++){
-      // var li = createElement('li', highScores[i][0] + ': ' + highScores[i][1]);
-      // li.class('scores_list');
-      // li.parent('scorelist');
-      console.log(highScores[i][0],highScores[i][1]);
+      //console.log(highScores[i][0],highScores[i][1]);
       var result = highScores[i][0] + ': ' + highScores[i][1];
       highText[i] = game.add.text(game.world.centerX -80, game.world.centerY +100, result, { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
       addIntsruct.anchor.set(0.5,0.5);
