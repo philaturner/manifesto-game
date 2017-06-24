@@ -4,7 +4,6 @@ var statusText = '.spawn and collect manifestos.';
 var startText = '.start.';
 var highScores;
 var initials = 'aaa';
-var init1,init2,init3;
 var init =[];
 var addIntsruct;
 var nameChange = true;
@@ -22,9 +21,9 @@ var menuState = {
 
     //initials text setup
     var offset = -88;
-    for (i = 0; i < 3; i++){
+    for (var i = 0; i < 3; i++){
       offset += 44;
-      init[i] = game.add.text(game.world.centerX-offset, game.world.centerY -122, initials[i], { font: 'Courier',fontSize: '48pt', fill: '#C7622B', align: 'center'});
+      init[i] = game.add.text(game.world.centerX+offset, game.world.centerY -122, initials[i], { font: 'Courier',fontSize: '48pt', fill: '#C7622B', align: 'center'});
       init[i].anchor.set(0.5,0.5);
       init[i].inputEnabled = true;
       init[i].fIndex = 0; //give the text a propety
