@@ -35,7 +35,7 @@ var menuState = {
     }
 
     //menu start text setup
-    menuStart = game.add.text(game.world.centerX, game.world.centerY -42, '.start.', { font: 'Courier',fontSize: '32pt', fill: '#000', align: 'center'});
+    menuStart = game.add.text(game.world.centerX, game.world.centerY, '.start.', { font: 'Courier',fontSize: '24pt', fill: '#7a7a7a', align: 'center'});
     menuStart.anchor.set(0.5,0.5);
     menuStart.inputEnabled = true;
     //start game by clicking
@@ -43,10 +43,10 @@ var menuState = {
     menuStart.events.onInputOver.add(this.highlight, this);
     menuStart.events.onInputDown.add(this.start, this);
 
-    menuStatus = game.add.text(game.world.centerX, game.world.centerY, '', { font: 'Courier',fontSize: '22px', fill: '#773682', align: 'center'});
+    menuStatus = game.add.text(game.world.centerX, game.world.centerY -42, '', { font: 'Courier',fontSize: '24pt', fill: '#773682', align: 'center'});
     menuStatus.anchor.set(0.5,0.5);
 
-    addIntsruct = game.add.text(game.world.centerX -160, game.world.centerY - 118, 'add your initials --->', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});
+    addIntsruct = game.add.text(game.world.centerX -160, game.world.centerY -118, 'add your initials --->', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});
     addIntsruct.anchor.set(0.5,0.5);
   },
 
@@ -55,7 +55,7 @@ var menuState = {
   },
 
   unhighlight: function(){
-    menuStart.fill = '#000';
+    menuStart.fill = '#7a7a7a';
   },
 
   fhighlight: function(elt){
