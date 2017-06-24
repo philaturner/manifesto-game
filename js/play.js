@@ -227,6 +227,7 @@ var playState = {
     }
 
     if (livesCount == 0){
+      score = 0;
       playState.endofLevel("you died :'(", '.try again.');
     }
 
@@ -236,7 +237,10 @@ var playState = {
     console.log('End of Level');
     statusText = sText;
     startText = stText;
-    this.submitScore();
+    if (score > 400){
+      this.submitScore();
+    }
+    score = 0;
     game.state.start('menu', true, false);
   },
 
@@ -289,6 +293,7 @@ var playState = {
   },
 
   timeIsUp: function(string){
+    score = 0;
     playState.endofLevel("you ran out of time :'(", '.play again');
   },
 
