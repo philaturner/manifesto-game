@@ -27,7 +27,7 @@ var menuState = {
     var offset = -88;
     for (var i = 0; i < 3; i++){
       offset += 44;
-      init[i] = game.add.text(game.world.centerX+offset, game.world.centerY -122, initials[i], { font: 'Courier',fontSize: '48pt', fill: '#ff772f', align: 'center'});
+      init[i] = game.add.text(game.world.centerX+offset, game.world.centerY -120, initials[i], { font: 'Courier',fontSize: '48pt', fill: '#ff772f', align: 'center'});
       init[i].anchor.set(0.5,0.5);
       init[i].inputEnabled = true;
       init[i].fIndex = 0; //give the text a propety
@@ -52,10 +52,10 @@ var menuState = {
     addIntsruct = game.add.text(game.world.centerX -160, game.world.centerY -118, 'add your initials --->', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});
     addIntsruct.anchor.set(0.5,0.5);
 
-    menuHigh = game.add.text(game.world.centerX-30, game.world.centerY +80, '.highscores.', { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
+    menuHigh = game.add.text(game.world.centerX, game.world.centerY +80, '.highscores.', { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
     menuHigh.anchor.set(0.5,0.5);
 
-    promoText = game.add.text(game.world.centerX +125, game.world.centerY +111, '<-- wins a free lunch', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});
+    promoText = game.add.text(game.world.centerX +165, game.world.centerY +115, '<-- wins a free lunch', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});
     promoText.anchor.set(0.5,0.5);
 
   },
@@ -148,7 +148,7 @@ var menuState = {
     for (i = 0; i < HIGH_SCORE_LIMIT; i++){
       //console.log(highScores[i][0],highScores[i][1]);
       var result = highScores[i][0] + ': ' + highScores[i][1];
-      highText[i] = game.add.text(game.world.centerX -80, game.world.centerY +100, result, { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
+      highText[i] = game.add.text(game.world.centerX -50, game.world.centerY +100, result, { font: 'Courier',fontSize: '18px', fill: '#3a4a4a', align: 'center'});
       addIntsruct.anchor.set(0.5,0.5);
       highText[i].hOffset = 100+(i * 22);
       highText[i].y = game.world.centerY + highText[i].hOffset;

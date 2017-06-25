@@ -251,6 +251,7 @@ var playState = {
     //random chance to get speed boost
     var rnd = game.rnd.integerInRange(1, 10)
     if (rnd > 8){
+      player.tint = 0x00ff00;
       player.body.velocity.x *= SPEED_MULTIPLER;
       player.body.velocity.y *= SPEED_MULTIPLER;
     }
