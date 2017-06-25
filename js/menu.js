@@ -21,13 +21,13 @@ var menuState = {
 
     bgScroll = game.add.tileSprite(0, -700, 3000, 1600, 'bg_scroll');
     //menu label
-    game.stage.backgroundColor = '#edd9fc';
+    game.stage.backgroundColor = '#101F36';
 
     //initials text setup
     var offset = -88;
     for (var i = 0; i < 3; i++){
       offset += 44;
-      init[i] = game.add.text(game.world.centerX+offset, game.world.centerY -122, initials[i], { font: 'Courier',fontSize: '48pt', fill: '#C7622B', align: 'center'});
+      init[i] = game.add.text(game.world.centerX+offset, game.world.centerY -122, initials[i], { font: 'Courier',fontSize: '48pt', fill: '#ff772f', align: 'center'});
       init[i].anchor.set(0.5,0.5);
       init[i].inputEnabled = true;
       init[i].fIndex = 0; //give the text a propety
@@ -46,7 +46,7 @@ var menuState = {
     menuStart.events.onInputOver.add(this.highlight, this);
     menuStart.events.onInputDown.add(this.start, this);
 
-    menuStatus = game.add.text(game.world.centerX, game.world.centerY -42, '', { font: 'Courier',fontSize: '24pt', fill: '#773682', align: 'center'});
+    menuStatus = game.add.text(game.world.centerX, game.world.centerY -42, '', { font: 'Courier',fontSize: '24pt', fill: '#ff6699', align: 'center'});
     menuStatus.anchor.set(0.5,0.5);
 
     addIntsruct = game.add.text(game.world.centerX -160, game.world.centerY -118, 'add your initials --->', { font: 'Courier',fontSize: '14px', fill: '#7a7a7a', align: 'center'});

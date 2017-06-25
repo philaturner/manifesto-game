@@ -116,9 +116,9 @@ var playState = {
     //various game text
     scoreText = game.add.text(game.world.width, 0, 'Score: 0', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
     starCountText = game.add.text(16 , game.world.height - 64, 'Manifestos:', { font: 'Courier',fontSize: '18px', fill: '#fff', backgroundColor: '#7a7a7a'});
-    game.add.text(16, game.world.height - 350, '*Find the end and collect*', { font: 'Courier',fontSize: '18px', fill: '#000'});
-    game.add.text(565, 490, 'If you have time!', { font: 'Courier',fontSize: '14px', fill: '#000'});
-    game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#000'});
+    game.add.text(16, game.world.height - 350, '*Find the end and collect*', { font: 'Courier',fontSize: '18px', fill: '#fff'});
+    game.add.text(565, 490, 'If you have time!', { font: 'Courier',fontSize: '14px', fill: '#fff'});
+    game.add.text(350, 648, 'Watch out for enemies', { font: 'Courier',fontSize: '14px', fill: '#fff'});
     timer = game.add.text(0, 0, 'Timer: 60', { font: 'Courier',fontSize: '24px', fill: '#fff', backgroundColor: '#773682'});
     starCount = stars.length;
 
@@ -268,7 +268,7 @@ var playState = {
   },
 
   hitEnenmy: function(player, baddie){
-    this.displacement(baddie.x, baddie.y, 100, 50);
+    this.displacement(baddie.x, baddie.y, 0, 125);
   },
 
   playerRestart: function(){
