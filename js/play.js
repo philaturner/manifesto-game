@@ -32,7 +32,7 @@ var playState = {
     livesCount = NO_OF_LIVES;
     console.log('Play State');
     //bg
-    bgScroll = game.add.tileSprite(0, -500, 3000, 1600, 'bg_scroll');
+    bgScroll = game.add.tileSprite(0, -500, 3000, 1600, 'menu_scroll');
 
     map = game.add.tilemap('main_map_j');
     map.addTilesetImage('main_ts','tiles');
@@ -298,7 +298,21 @@ var playState = {
   },
 
   completedLevel: function(){
-    playState.endofLevel('level complete, your score was ' + score, '.play again.');
+    var med = this.calculateIfMedal();
+    playState.endofLevel(med + ' , your score was ' + score, '.play again.');
+  },
+
+  calculateIfMedal: function(){
+    if (score >= currentMedals[0].gold){
+      return 'gold medal'
+    }
+    if (score >= currentMedals[0].silver){
+      return 'silver medal'
+    }
+    if (score >= currentMedals[0].bronze){
+      return 'bronze medal'
+    }
+    return 'complete'
   },
 
   submitScore: function(){
