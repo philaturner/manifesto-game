@@ -62,7 +62,7 @@ var menuState = {
 
   create: function(){
     //load data and highscores from Firebase
-    var ref = database.ref("scores");
+    var ref = database.ref(HIGH_SCORE_MODE + "/scores");
     ref.on("value", this.gotData, this.errData);
   },
 

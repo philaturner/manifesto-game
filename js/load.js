@@ -4,6 +4,7 @@ var submitButton;
 var nameInput;
 var submitP;
 var highScores =[];
+var HIGH_SCORE_MODE = 'dev';
 
 var loadState = {
 

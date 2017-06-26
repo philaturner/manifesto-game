@@ -307,6 +307,6 @@ var playState = {
       name: initials,//nameInput.value(),
       score: score//score
     }
-    var scores = database.ref('scores').push(data);
+    var scores = database.ref(HIGH_SCORE_MODE + '/scores').push(data);
   }
 };
